@@ -12,18 +12,50 @@ Coordinate = collections.namedtuple('Coordinate', ('x', 'y'))
 
 
 def search_maze(maze, s, e):
-    # TODO - you fill in here.
-    return []
+    # Returns a bool, and the path if it exists
+    path = []
 
+    def helper(start):
+        if start.x >= len(maze) or start.y >= len(maze[0]) or start.x < 0 or start.y < 0:
+            return False
+        elif maze[start.x][start.y] == BLACK:
+            return False
+        path.append(start)
+        maze[start.x][start.y] = BLACK
+        if start == e:
+            return True
+        else:
+            right_found = helper(Coordinate(start.x + 1, start.y))
+            if right_found:
+                return right_found
+            left_found = helper(Coordinate(start.x - 1, start.y))
+            if left_found:
+                return left_found
+            up_found = helper(Coordinate(start.x, start.y + 1))
+            if up_found:
+                return up_found
+            down_found = helper(Coordinate(start.x, start.y - 1))
+            if down_found:
+                return down_found
 
-def path_element_is_feasible(maze, prev, cur):
-    if not ((0 <= cur.x < len(maze)) and
-            (0 <= cur.y < len(maze[cur.x])) and maze[cur.x][cur.y] == WHITE):
+            del path[-1]
+            return False
+
+    solvable = helper(s)
+    if solvable:
+        return path
+    else:
         return False
-    return cur == (prev.x + 1, prev.y) or \
-           cur == (prev.x - 1, prev.y) or \
-           cur == (prev.x, prev.y + 1) or \
-           cur == (prev.x, prev.y - 1)
+
+
+def path_element_is_feasible(maze, prev, start):
+    if not ((0 <= start.x < len(maze)) and
+            (0 <= start.y < len(maze[start.x])) and maze[start.x][start.y] == WHITE):
+        return False
+    return start == (prev.x + 1, prev.y) or \
+           start == (prev.x - 1, prev.y) or \
+           start == (prev.x, prev.y + 1) or \
+           start == (prev.x, prev.y - 1)
 
 
 @enable_executor_hook

@@ -2,8 +2,11 @@ from test_framework import generic_test
 
 
 def is_binary_tree_bst(tree, low_range=float('-inf'), high_range=float('inf')):
-    # TODO - you fill in here.
-    return True
+    if not tree:
+        return True
+    return tree.data >= low_range and tree.data <= high_range and is_binary_tree_bst(tree.left,low_range, tree.data) and is_binary_tree_bst(tree.right, tree.data, high_range)
+
+
 
 
 if __name__ == '__main__':

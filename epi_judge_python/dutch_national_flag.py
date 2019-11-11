@@ -8,7 +8,19 @@ RED, WHITE, BLUE = range(3)
 
 
 def dutch_flag_partition(pivot_index, A):
-    # TODO - you fill in here.
+    pivot = A[pivot_index]
+    less, equal, great = 0, len(A), len(A)
+    while less < equal:
+        curr_val = A[less]
+        if curr_val < pivot:
+            less+= 1
+        elif curr_val == pivot:
+            A[less], A[equal - 1] = A[equal - 1], curr_val
+            equal -= 1
+        elif curr_val > pivot:
+            A[less], A[equal - 1], A[great - 1] = A[equal - 1], A[great - 1], A[less]
+            great -= 1
+            equal -= 1
     return
 
 
