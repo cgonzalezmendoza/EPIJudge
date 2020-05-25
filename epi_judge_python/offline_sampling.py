@@ -1,4 +1,5 @@
 import functools
+import random
 
 from test_framework import generic_test
 from test_framework.random_sequence_checker import (
@@ -6,10 +7,23 @@ from test_framework.random_sequence_checker import (
     compute_combination_idx, run_func_with_retries)
 from test_framework.test_utils import enable_executor_hook
 
-
+# O(k) approach
 def random_sampling(k, A):
-    # TODO - you fill in here.
-    return
+    for i in range(k):
+        rand_index = random.randint(i, len(A) - 1)
+        A[i], A[rand_index] = A[rand_index], A[i]
+    return A
+
+# O(kn) approach
+# def random_sampling(k, A):
+#     if len(A) <= 0 or k <= 0:
+#         return []
+#     sub_arr = []
+#     for i in range(len(A) - k):
+#         chosen_index = random.randint(0, len(A) - 1)
+#         del A[chosen_index]
+#
+#     return sub_arr
 
 
 @enable_executor_hook
